@@ -19,7 +19,7 @@ const editions = [
       { id: "q7", section: "June 2026", type: "text", prompt: "When does confidence become arrogance?" },
       { id: "q8", section: "June 2026", type: "text", prompt: "The character Monica, as portrayed by Courteney Cox, is the character from television who could most successfully transition to UFC fighter. Who is second?" },
       { id: "q9", section: "June 2026", type: "text", prompt: "Artis Gilmore. Doesn't that sound like a cool name?" },
-      { id: "q10", section: "June 2026", type: "choice", prompt: "How many Peanut M&M's do you think you can fit in your mouth? Proper noun: the number scale or multiple choice has to be 0 or 1.", options: ["0", "1"] },
+      { id: "q10", section: "June 2026", type: "select", prompt: "How many Peanut Eminem's do you think you can fit in your mouth?", options: ["0", "1"] },
       { id: "q11", section: "June 2026", type: "slider", prompt: "Based on where you are in life, how important is popularity?", min: 0, max: 100, leftLabel: "A dead currency", rightLabel: "Extremely load-bearing" },
       { id: "q12", section: "June 2026", type: "text", prompt: "Who are the five most famous people? Ordered or unordered is fine." },
       { id: "q13", section: "June 2026", type: "text", prompt: "Who do you know that is crazy in the best way?" },
@@ -206,6 +206,7 @@ function renderQuestion() {
 
   if (question.type === "text" || question.type === "callback") renderTextQuestion(question);
   if (question.type === "choice") renderChoiceQuestion(question);
+  if (question.type === "select") renderSelectQuestion(question);
   if (question.type === "choiceText") renderChoiceTextQuestion(question);
   if (question.type === "slider") renderSliderQuestion(question);
   if (question.type === "emojiRating") renderEmojiRatingQuestion(question);
@@ -291,6 +292,29 @@ function renderChoiceQuestion(question) {
   });
 
   questionBody.appendChild(grid);
+}
+
+function renderSelectQuestion(question) {
+  const select = document.createElement("select");
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Choose one";
+  select.appendChild(placeholder);
+
+  question.options.forEach((option) => {
+    const choice = document.createElement("option");
+    choice.value = option;
+    choice.textContent = option;
+    select.appendChild(choice);
+  });
+
+  select.value = state.answers[question.id] || "";
+  select.addEventListener("change", () => {
+    state.answers[question.id] = select.value;
+    saveState();
+  });
+
+  questionBody.appendChild(select);
 }
 
 function renderChoiceTextQuestion(question) {
