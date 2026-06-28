@@ -13,7 +13,7 @@ const editions = [
       { id: "q1", section: "June 2026", type: "text", prompt: "Would you wear an article of clothing with writing in a language you don't understand?" },
       { id: "q2", section: "June 2026", type: "text", prompt: "The funniest person alive is?" },
       { id: "q3", section: "June 2026", type: "text", prompt: "Contrary to popular belief..." },
-      { id: "q4", section: "June 2026", type: "text", prompt: "Imagine you are past prime athletic age. You are \"Like Mike'd\": you find an article of clothing belonging to a great player, and when lightning strikes, that power is transferred to you. What athlete and what article of clothing?" },
+      { id: "q4", section: "June 2026", type: "pairedText", prompt: "Imagine you are past prime athletic age. You are \"Like Mike'd\": you find an article of clothing belonging to a great player, and when lightning strikes, that power is transferred to you.", fields: ["Athlete", "Article of clothing"] },
       { id: "q5", section: "June 2026", type: "text", prompt: "What font is the best description of your personality?" },
       { id: "q6", section: "June 2026", type: "text", prompt: "Was Padme Amidala-Skywalker justified in dying of a broken heart?" },
       { id: "q7", section: "June 2026", type: "text", prompt: "When does confidence become arrogance?" },
@@ -30,11 +30,11 @@ const editions = [
       { id: "q18", section: "June 2026", type: "text", prompt: "How do you confirm your reality?" },
       { id: "q19", section: "June 2026", type: "choiceText", prompt: "Do you think Marie Antoinette would be a queenie now for telling the plebs to eat ass?", options: ["Yes", "No"], writeInLabel: "Write-in ruling" },
       { id: "q20", section: "June 2026", type: "slider", prompt: "How real does money feel to you?", min: 0, max: 100, leftLabel: "Stage prop", rightLabel: "Cosmic law" },
-      { id: "q21", section: "June 2026", type: "callback", prompt: "This refers to question 4. Supposing you choose to go pro with {q4}, how do you imagine navigating the rookie process as someone much older?", fallback: "your stolen athletic destiny" },
+      { id: "q21", section: "June 2026", type: "callback", prompt: "This refers to question 4. Supposing you choose the power of {q4.Athlete}, how do you imagine navigating the rookie process as someone much older?", fallback: "your stolen athletic destiny" },
       { id: "q22", section: "June 2026", type: "text", prompt: "Continuation of question 21. Do you begin styling differently?" },
       { id: "q23", section: "June 2026", type: "text", prompt: "How old is your phone? And what condition is it in?" },
       { id: "q24", section: "June 2026", type: "choiceText", prompt: "How much small talking with strangers do you do? Is this more or less than ideal?", options: ["Almost none", "A normal human amount", "More than I can defend", "I am the mayor of small talk"], writeInLabel: "Explain the gap" },
-      { id: "q25", section: "June 2026", type: "emojiRating", prompt: "Please watch the clip for the quote and then return.\n\n\"Do you want your image to spike, like Jonze, or do you want your image to diminish, like spinach?\"\n\nhttps://youtu.be/NtiTsDOkJxc?si=xpi_5Q7AitQj3w2u&t=489\n\nChoose an emoji reading first, then rate how funny it was from 1 to 10.", emojis: ["Stone face", "Polite air", "Real laugh", "Destroyed"] },
+      { id: "q25", section: "June 2026", type: "emojiRating", prompt: "Please watch the clip for the quote and then return.\n\n\"Do you want your image to spike, like Jonze, or do you want your image to diminish, like spinach?\"\n\nChoose an emoji reading first, then rate how funny it was from 1 to 10.", video: { url: "https://www.youtube.com/embed/NtiTsDOkJxc?start=489&end=497&rel=0", fallbackUrl: "https://youtu.be/NtiTsDOkJxc?t=489" }, emojis: ["Stone face", "Polite air", "Real laugh", "Destroyed"] },
       { id: "q26", section: "June 2026", type: "text", prompt: "Are there actually good guys and bad guys?" },
       { id: "q27", section: "June 2026", type: "text", prompt: "Does your Wi-Fi network have a clever name?" },
       { id: "q28", section: "June 2026", type: "text", prompt: "I'm pretty sure that every \"secret\" sauce is thousand island and mayo. Am I right?" },
@@ -205,6 +205,7 @@ function renderQuestion() {
   questionBody.appendChild(createPrompt(question));
 
   if (question.type === "text" || question.type === "callback") renderTextQuestion(question);
+  if (question.type === "pairedText") renderPairedTextQuestion(question);
   if (question.type === "choice") renderChoiceQuestion(question);
   if (question.type === "select") renderSelectQuestion(question);
   if (question.type === "choiceText") renderChoiceTextQuestion(question);
@@ -255,10 +256,20 @@ function createPrompt(question) {
 
 function hydratePrompt(question) {
   return question.prompt.replace(/\{([^}]+)\}/g, (_, id) => {
-    const answer = state.answers[id];
+    const answer = getAnswerValue(id);
     if (typeof answer === "string" && answer.trim()) return answer;
     return question.fallback || "that";
   });
+}
+
+function getAnswerValue(path) {
+  const parts = path.split(".");
+  let value = state.answers[parts[0]];
+  for (const part of parts.slice(1)) {
+    if (!value || typeof value !== "object") return "";
+    value = value[part];
+  }
+  return value;
 }
 
 function renderTextQuestion(question) {
@@ -271,6 +282,34 @@ function renderTextQuestion(question) {
   });
   questionBody.appendChild(textarea);
   textarea.focus();
+}
+
+function renderPairedTextQuestion(question) {
+  const saved = state.answers[question.id] || {};
+  const wrapper = document.createElement("div");
+  wrapper.className = "paired-fields";
+
+  question.fields.forEach((field) => {
+    const label = document.createElement("label");
+    label.className = "paired-field";
+    const span = document.createElement("span");
+    span.textContent = field;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = saved[field] || "";
+    input.placeholder = field;
+    input.addEventListener("input", () => {
+      const current = state.answers[question.id] || {};
+      state.answers[question.id] = { ...current, [field]: input.value };
+      saveState();
+    });
+    label.append(span, input);
+    wrapper.appendChild(label);
+  });
+
+  questionBody.appendChild(wrapper);
+  const firstInput = wrapper.querySelector("input");
+  if (firstInput) firstInput.focus();
 }
 
 function renderChoiceQuestion(question) {
@@ -373,6 +412,25 @@ function renderEmojiRatingQuestion(question) {
   const helper = document.createElement("p");
   helper.className = "helper";
   helper.textContent = "Choose the face of the laugh, then give the number.";
+
+  if (question.video) {
+    const videoWrap = document.createElement("div");
+    videoWrap.className = "video-wrap";
+    const iframe = document.createElement("iframe");
+    iframe.src = question.video.url;
+    iframe.title = "Question clip";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    videoWrap.appendChild(iframe);
+
+    const link = document.createElement("a");
+    link.className = "video-link";
+    link.href = question.video.fallbackUrl;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.textContent = "Open clip in YouTube";
+    questionBody.append(videoWrap, link);
+  }
 
   const grid = document.createElement("div");
   grid.className = "choice-grid";
