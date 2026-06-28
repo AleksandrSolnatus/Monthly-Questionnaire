@@ -328,28 +328,6 @@ input[type="range"] {
   line-height: 1.45;
 }
 
-.video-wrap {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  margin: 0 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #15120f;
-}
-
-.video-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.video-link {
-  display: inline-block;
-  margin: 0 0 20px;
-  color: var(--accent-dark);
-  font-weight: 700;
-}
-
 .submit-status {
   min-height: 24px;
   color: var(--muted);

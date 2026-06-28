@@ -34,7 +34,7 @@ const editions = [
       { id: "q22", section: "June 2026", type: "text", prompt: "Continuation of question 21. Do you begin styling differently?" },
       { id: "q23", section: "June 2026", type: "text", prompt: "How old is your phone? And what condition is it in?" },
       { id: "q24", section: "June 2026", type: "choiceText", prompt: "How much small talking with strangers do you do? Is this more or less than ideal?", options: ["Almost none", "A normal human amount", "More than I can defend", "I am the mayor of small talk"], writeInLabel: "Explain the gap" },
-      { id: "q25", section: "June 2026", type: "emojiRating", prompt: "Please watch the clip for the quote and then return.\n\n\"Do you want your image to spike, like Jonze, or do you want your image to diminish, like spinach?\"\n\nChoose an emoji reading first, then rate how funny it was from 1 to 10.", video: { url: "https://www.youtube.com/embed/NtiTsDOkJxc?start=489&end=497&rel=0", fallbackUrl: "https://youtu.be/NtiTsDOkJxc?t=489" }, emojis: ["Stone face", "Polite air", "Real laugh", "Destroyed"] },
+      { id: "q25", section: "June 2026", type: "rating", prompt: "Please rate how funny this quote is from 1 to 10.\n\n\"Do you want your image to spike, like Jonze, or do you want your image to diminish, like spinach?\"" },
       { id: "q26", section: "June 2026", type: "text", prompt: "Are there actually good guys and bad guys?" },
       { id: "q27", section: "June 2026", type: "text", prompt: "Does your Wi-Fi network have a clever name?" },
       { id: "q28", section: "June 2026", type: "text", prompt: "I'm pretty sure that every \"secret\" sauce is thousand island and mayo. Am I right?" },
@@ -210,7 +210,7 @@ function renderQuestion() {
   if (question.type === "select") renderSelectQuestion(question);
   if (question.type === "choiceText") renderChoiceTextQuestion(question);
   if (question.type === "slider") renderSliderQuestion(question);
-  if (question.type === "emojiRating") renderEmojiRatingQuestion(question);
+  if (question.type === "rating") renderRatingQuestion(question);
   if (question.type === "ranking") renderRankingQuestion(question);
   if (question.type === "bars") renderBarsQuestion(question);
 }
@@ -407,64 +407,24 @@ function renderSliderQuestion(question) {
   questionBody.append(helper, input, value);
 }
 
-function renderEmojiRatingQuestion(question) {
-  const saved = state.answers[question.id] || { emoji: "", rating: 5 };
-  const helper = document.createElement("p");
-  helper.className = "helper";
-  helper.textContent = "Choose the face of the laugh, then give the number.";
-
-  if (question.video) {
-    const videoWrap = document.createElement("div");
-    videoWrap.className = "video-wrap";
-    const iframe = document.createElement("iframe");
-    iframe.src = question.video.url;
-    iframe.title = "Question clip";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    iframe.allowFullscreen = true;
-    videoWrap.appendChild(iframe);
-
-    const link = document.createElement("a");
-    link.className = "video-link";
-    link.href = question.video.fallbackUrl;
-    link.target = "_blank";
-    link.rel = "noreferrer";
-    link.textContent = "Open clip in YouTube";
-    questionBody.append(videoWrap, link);
-  }
-
-  const grid = document.createElement("div");
-  grid.className = "choice-grid";
-  question.emojis.forEach((emoji) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "choice-button";
-    button.textContent = emoji;
-    if (saved.emoji === emoji) button.classList.add("selected");
-    button.addEventListener("click", () => {
-      state.answers[question.id] = { ...saved, emoji };
-      saveState();
-      renderQuestion();
-    });
-    grid.appendChild(button);
-  });
-
+function renderRatingQuestion(question) {
+  const saved = state.answers[question.id] || 5;
   const input = document.createElement("input");
   input.type = "range";
   input.min = 1;
   input.max = 10;
-  input.value = saved.rating || 5;
+  input.value = saved;
 
   const value = document.createElement("p");
   value.className = "bar-reading";
   value.textContent = `Funny rating: ${input.value} / 10`;
   input.addEventListener("input", () => {
-    const current = state.answers[question.id] || { emoji: "", rating: 5 };
-    state.answers[question.id] = { ...current, rating: input.value };
+    state.answers[question.id] = input.value;
     value.textContent = `Funny rating: ${input.value} / 10`;
     saveState();
   });
 
-  questionBody.append(helper, grid, input, value);
+  questionBody.append(input, value);
 }
 
 function renderRankingQuestion(question) {
