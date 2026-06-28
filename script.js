@@ -4,81 +4,42 @@ const CONFIG = {
 
 const editions = [
   {
-    id: "june-2026-draft",
-    title: "June 2026 Draft",
+    id: "june-2026",
+    title: "June 2026",
     kicker: "Monthly Questionnaire: June Edition",
-    intro: "Thirty questions planned. This draft includes the interactive pieces and the Question 30 bar graph prototype.",
+    intro: "Thirty questions. Some are normal. Some are wearing a fake mustache.",
     answerFile: "june-questionnaire-answers.json",
     questions: [
-      {
-        id: "q1",
-        section: "Act I: The Machine",
-        type: "text",
-        prompt: "A machine can show you one true thing about yourself that you do not currently see. Do you use it?"
-      },
-      {
-        id: "q2",
-        section: "Act I: The Machine",
-        type: "choice",
-        prompt: "The committee requires an immediate ruling. Board shorts or bowling shoes?",
-        options: ["Board shorts", "Bowling shoes", "The committee is corrupt"]
-      },
-      {
-        id: "q3",
-        section: "Act I: The Machine",
-        type: "slider",
-        prompt: "How much truth can a normal Tuesday survive?",
-        min: 0,
-        max: 100,
-        leftLabel: "None. Let Tuesday sleep.",
-        rightLabel: "All of it. Wake the whole street."
-      },
-      {
-        id: "q4",
-        section: "Act II: Public Disaster",
-        type: "text",
-        prompt: "You get one hour where everyone believes you completely. What do you say?"
-      },
-      {
-        id: "q5",
-        section: "Act II: Public Disaster",
-        type: "choice",
-        prompt: "Your favorite team has the first pick in the draft. You have to make the call for the company picnic.",
-        options: ["Pepsi", "Coke", "Water, ominously"]
-      },
-      {
-        id: "q6",
-        section: "Act II: Public Disaster",
-        type: "text",
-        prompt: "The results from the picnic beverage decision are disastrous. A press conference has been called. What do you turn to for guidance?"
-      },
-      {
-        id: "q7",
-        section: "Act III: Personal Doctrine",
-        type: "ranking",
-        prompt: "Rank these franchises from healthiest to most spiritually endangered.",
-        options: ["Dune", "Star Wars", "Marvel", "DC", "Harry Potter", "Avatar"]
-      },
-      {
-        id: "q8",
-        section: "Act III: Personal Doctrine",
-        type: "text",
-        prompt: "What do you return to, even when it is not good for you?"
-      },
-      {
-        id: "q9",
-        section: "Act IV: Callback Chamber",
-        type: "callback",
-        prompt: "Earlier, you chose {q5}. That choice had consequences. What color is the sky in your imagination right now?",
-        fallback: "a beverage"
-      },
-      {
-        id: "q30",
-        section: "Act V: The Three Bars",
-        type: "bars",
-        prompt: "Question 30 prototype: Adjust the three bars until the machine reveals what kind of impossible answer you have made.",
-        labels: ["Truth", "Comfort", "Consequences"]
-      }
+      { id: "q1", section: "June 2026", type: "text", prompt: "Would you wear an article of clothing with writing in a language you don't understand?" },
+      { id: "q2", section: "June 2026", type: "text", prompt: "The funniest person alive is?" },
+      { id: "q3", section: "June 2026", type: "text", prompt: "Contrary to popular belief..." },
+      { id: "q4", section: "June 2026", type: "text", prompt: "Imagine you are past prime athletic age. You are \"Like Mike'd\": you find an article of clothing belonging to a great player, and when lightning strikes, that power is transferred to you. What athlete and what article of clothing?" },
+      { id: "q5", section: "June 2026", type: "text", prompt: "What font is the best description of your personality?" },
+      { id: "q6", section: "June 2026", type: "text", prompt: "Was Padme Amidala-Skywalker justified in dying of a broken heart?" },
+      { id: "q7", section: "June 2026", type: "text", prompt: "When does confidence become arrogance?" },
+      { id: "q8", section: "June 2026", type: "text", prompt: "The character Monica, as portrayed by Courteney Cox, is the character from television who could most successfully transition to UFC fighter. Who is second?" },
+      { id: "q9", section: "June 2026", type: "text", prompt: "Artis Gilmore. Doesn't that sound like a cool name?" },
+      { id: "q10", section: "June 2026", type: "choice", prompt: "How many Peanut M&M's do you think you can fit in your mouth? Proper noun: the number scale or multiple choice has to be 0 or 1.", options: ["0", "1"] },
+      { id: "q11", section: "June 2026", type: "slider", prompt: "Based on where you are in life, how important is popularity?", min: 0, max: 100, leftLabel: "A dead currency", rightLabel: "Extremely load-bearing" },
+      { id: "q12", section: "June 2026", type: "text", prompt: "Who are the five most famous people? Ordered or unordered is fine." },
+      { id: "q13", section: "June 2026", type: "text", prompt: "Who do you know that is crazy in the best way?" },
+      { id: "q14", section: "June 2026", type: "text", prompt: "How ya doing?" },
+      { id: "q15", section: "June 2026", type: "text", prompt: "What do you think happened to the money?" },
+      { id: "q16", section: "June 2026", type: "choice", prompt: "How many?", options: ["0", "A lot", "6", "12"] },
+      { id: "q17", section: "June 2026", type: "text", prompt: "Do bras and panties need to match?" },
+      { id: "q18", section: "June 2026", type: "text", prompt: "How do you confirm your reality?" },
+      { id: "q19", section: "June 2026", type: "choiceText", prompt: "Do you think Marie Antoinette would be a queenie now for telling the plebs to eat ass?", options: ["Yes", "No"], writeInLabel: "Write-in ruling" },
+      { id: "q20", section: "June 2026", type: "slider", prompt: "How real does money feel to you?", min: 0, max: 100, leftLabel: "Stage prop", rightLabel: "Cosmic law" },
+      { id: "q21", section: "June 2026", type: "callback", prompt: "This refers to question 4. Supposing you choose to go pro with {q4}, how do you imagine navigating the rookie process as someone much older?", fallback: "your stolen athletic destiny" },
+      { id: "q22", section: "June 2026", type: "text", prompt: "Continuation of question 21. Do you begin styling differently?" },
+      { id: "q23", section: "June 2026", type: "text", prompt: "How old is your phone? And what condition is it in?" },
+      { id: "q24", section: "June 2026", type: "choiceText", prompt: "How much small talking with strangers do you do? Is this more or less than ideal?", options: ["Almost none", "A normal human amount", "More than I can defend", "I am the mayor of small talk"], writeInLabel: "Explain the gap" },
+      { id: "q25", section: "June 2026", type: "emojiRating", prompt: "Please watch the clip for the quote and then return.\n\n\"Do you want your image to spike, like Jonze, or do you want your image to diminish, like spinach?\"\n\nhttps://youtu.be/NtiTsDOkJxc?si=xpi_5Q7AitQj3w2u&t=489\n\nChoose an emoji reading first, then rate how funny it was from 1 to 10.", emojis: ["Stone face", "Polite air", "Real laugh", "Destroyed"] },
+      { id: "q26", section: "June 2026", type: "text", prompt: "Are there actually good guys and bad guys?" },
+      { id: "q27", section: "June 2026", type: "text", prompt: "Does your Wi-Fi network have a clever name?" },
+      { id: "q28", section: "June 2026", type: "text", prompt: "I'm pretty sure that every \"secret\" sauce is thousand island and mayo. Am I right?" },
+      { id: "q29", section: "June 2026", type: "choice", prompt: "Which is the best band name?", options: ["Dead Kid Funerals", "Stupid Songs", "The Disinterested Bitches", "Psychoanalyzed Trash", "A Podcast", "Your Jewish Friends are Scared", "Knife Fight", "Thread Count"] },
+      { id: "q30", section: "June 2026", type: "bars", prompt: "Do you think you would handle overnight success well? Adjust the bars until the publicist, the accountant, and the private self all stop yelling.", labels: ["Fame Appetite", "Impulse Control", "Private Self"] }
     ]
   },
   {
@@ -132,7 +93,7 @@ const editions = [
   }
 ];
 
-const defaultEditionId = "june-2026-draft";
+const defaultEditionId = "june-2026";
 const storageKey = "monthly-questionnaire-state";
 let state = loadState();
 
@@ -234,7 +195,9 @@ function renderQuestion() {
 
   if (question.type === "text" || question.type === "callback") renderTextQuestion(question);
   if (question.type === "choice") renderChoiceQuestion(question);
+  if (question.type === "choiceText") renderChoiceTextQuestion(question);
   if (question.type === "slider") renderSliderQuestion(question);
+  if (question.type === "emojiRating") renderEmojiRatingQuestion(question);
   if (question.type === "ranking") renderRankingQuestion(question);
   if (question.type === "bars") renderBarsQuestion(question);
 }
@@ -312,6 +275,37 @@ function renderChoiceQuestion(question) {
   questionBody.appendChild(grid);
 }
 
+function renderChoiceTextQuestion(question) {
+  const saved = state.answers[question.id] || { choice: "", note: "" };
+  const grid = document.createElement("div");
+  grid.className = "choice-grid";
+
+  question.options.forEach((option) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "choice-button";
+    button.textContent = option;
+    if (saved.choice === option) button.classList.add("selected");
+    button.addEventListener("click", () => {
+      state.answers[question.id] = { ...saved, choice: option };
+      saveState();
+      renderQuestion();
+    });
+    grid.appendChild(button);
+  });
+
+  const textarea = document.createElement("textarea");
+  textarea.value = saved.note || "";
+  textarea.placeholder = question.writeInLabel || "Write in anything else.";
+  textarea.addEventListener("input", () => {
+    const current = state.answers[question.id] || { choice: "", note: "" };
+    state.answers[question.id] = { ...current, note: textarea.value };
+    saveState();
+  });
+
+  questionBody.append(grid, textarea);
+}
+
 function renderSliderQuestion(question) {
   const helper = document.createElement("p");
   helper.className = "helper";
@@ -330,6 +324,47 @@ function renderSliderQuestion(question) {
     saveState();
   });
   questionBody.append(helper, input, value);
+}
+
+function renderEmojiRatingQuestion(question) {
+  const saved = state.answers[question.id] || { emoji: "", rating: 5 };
+  const helper = document.createElement("p");
+  helper.className = "helper";
+  helper.textContent = "Choose the face of the laugh, then give the number.";
+
+  const grid = document.createElement("div");
+  grid.className = "choice-grid";
+  question.emojis.forEach((emoji) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "choice-button";
+    button.textContent = emoji;
+    if (saved.emoji === emoji) button.classList.add("selected");
+    button.addEventListener("click", () => {
+      state.answers[question.id] = { ...saved, emoji };
+      saveState();
+      renderQuestion();
+    });
+    grid.appendChild(button);
+  });
+
+  const input = document.createElement("input");
+  input.type = "range";
+  input.min = 1;
+  input.max = 10;
+  input.value = saved.rating || 5;
+
+  const value = document.createElement("p");
+  value.className = "bar-reading";
+  value.textContent = `Funny rating: ${input.value} / 10`;
+  input.addEventListener("input", () => {
+    const current = state.answers[question.id] || { emoji: "", rating: 5 };
+    state.answers[question.id] = { ...current, rating: input.value };
+    value.textContent = `Funny rating: ${input.value} / 10`;
+    saveState();
+  });
+
+  questionBody.append(helper, grid, input, value);
 }
 
 function renderRankingQuestion(question) {
@@ -382,7 +417,10 @@ function moveRank(questionId, index, direction) {
 
 function renderBarsQuestion(question) {
   if (!state.answers[question.id]) {
-    state.answers[question.id] = { Truth: 34, Comfort: 33, Consequences: 33 };
+    state.answers[question.id] = question.labels.reduce((answers, label, index) => {
+      answers[label] = index === 0 ? 34 : 33;
+      return answers;
+    }, {});
   }
 
   const lab = document.createElement("div");
@@ -423,7 +461,7 @@ function renderBarsQuestion(question) {
     lab.appendChild(row);
   });
 
-  reading.textContent = getBarReading(state.answers[question.id]);
+  reading.textContent = getBarReading(state.answers[question.id], question.labels);
   questionBody.append(visual, lab, reading);
 }
 
@@ -448,12 +486,24 @@ function updateBars(questionId, changedLabel, nextValue) {
   saveState();
 }
 
-function getBarReading(values) {
-  const { Truth, Comfort, Consequences } = values;
-  if (Truth > 70) return "The machine says: this much truth requires a helmet and probably a witness.";
-  if (Comfort > 70) return "The machine says: beautiful upholstery, questionable structural integrity.";
-  if (Consequences > 70) return "The machine says: the press conference has already begun.";
-  if (Math.abs(Truth - Comfort) < 8 && Math.abs(Comfort - Consequences) < 8) {
+function getBarReading(values, labels) {
+  const first = values[labels[0]];
+  const second = values[labels[1]];
+  const third = values[labels[2]];
+  if (labels.includes("Fame Appetite")) {
+    if (first > 70) return "The machine says: the sunglasses are already indoors.";
+    if (second > 70) return "The machine says: surprisingly survivable. The accountant is breathing again.";
+    if (third > 70) return "The machine says: you may become famous and then immediately move to a smaller town.";
+    if (Math.abs(first - second) < 8 && Math.abs(second - third) < 8) {
+      return "The machine says: balanced enough to frighten a publicist.";
+    }
+    return "The machine says: success accepted, damage pending.";
+  }
+
+  if (first > 70) return "The machine says: this much truth requires a helmet and probably a witness.";
+  if (second > 70) return "The machine says: beautiful upholstery, questionable structural integrity.";
+  if (third > 70) return "The machine says: the press conference has already begun.";
+  if (Math.abs(first - second) < 8 && Math.abs(second - third) < 8) {
     return "The machine says: suspiciously balanced. Someone here has practiced.";
   }
   return "The machine says: answer accepted, but the room temperature has changed.";
