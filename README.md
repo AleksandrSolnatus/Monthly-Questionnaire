@@ -4,7 +4,7 @@ A small static interactive questionnaire. It works on GitHub Pages with no build
 
 ## Edit the Questions
 
-Open `script.js` and edit the `questions` array near the top.
+Open `script.js` and edit the `editions` array near the top.
 
 Supported question types:
 
@@ -15,8 +15,8 @@ Supported question types:
 - `callback`
 - `bars`
 
-The current file has 10 sample questions, with the final sample standing in for Question 30.
-When the full monthly questionnaire is ready, replace the sample list with 30 questions.
+The current file has a June draft/prototype and the May 25, 2026 archive.
+When the full monthly questionnaire is ready, replace the June draft questions with the new 30-question list.
 
 ## Run Locally
 
