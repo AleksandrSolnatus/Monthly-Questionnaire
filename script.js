@@ -39,7 +39,7 @@ const editions = [
       { id: "q27", section: "June 2026", type: "text", prompt: "Does your Wi-Fi network have a clever name?" },
       { id: "q28", section: "June 2026", type: "text", prompt: "I'm pretty sure that every \"secret\" sauce is thousand island and mayo. Am I right?" },
       { id: "q29", section: "June 2026", type: "choice", prompt: "Which is the best band name?", options: ["Dead Kid Funerals", "Stupid Songs", "The Disinterested Bitches", "Psychoanalyzed Trash", "A Podcast", "Your Jewish Friends are Scared", "Knife Fight", "Thread Count"] },
-      { id: "q30", section: "June 2026", type: "bars", prompt: "Do you think you would handle overnight success well? Adjust the bars until the publicist, the accountant, and the private self all stop yelling.", labels: ["Fame Appetite", "Impulse Control", "Private Self"] }
+      { id: "q30", section: "June 2026", type: "bars", prompt: "Do you think you would handle overnight success well?", labels: ["Fame Appetite", "Impulse Control", "Private Self"] }
     ]
   },
   {
@@ -551,13 +551,15 @@ function getBarReading(values, labels) {
   const second = values[labels[1]];
   const third = values[labels[2]];
   if (labels.includes("Fame Appetite")) {
-    if (first > 70) return "The machine says: the sunglasses are already indoors.";
-    if (second > 70) return "The machine says: surprisingly survivable. The accountant is breathing again.";
-    if (third > 70) return "The machine says: you may become famous and then immediately move to a smaller town.";
+    if (first > 65 && second < 20) return "Eat, drink, and be merry.";
+    if (first > 65) return "Git while the gittin's good.";
+    if (second > 60) return "A fast horse still needs a fence.";
+    if (third > 60) return "Dance with the one that brung ya.";
+    if (first < 25 && second > 45) return "A man who won't take chances won't have to worry about consequences.";
     if (Math.abs(first - second) < 8 && Math.abs(second - third) < 8) {
-      return "The machine says: balanced enough to frighten a publicist.";
+      return "Life is mostly froth and bubble.";
     }
-    return "The machine says: success accepted, damage pending.";
+    return "Ride for the brand.";
   }
 
   if (first > 70) return "The machine says: this much truth requires a helmet and probably a witness.";

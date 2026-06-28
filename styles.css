@@ -311,6 +311,7 @@ input[type="range"] {
   min-height: 8px;
   border-radius: 5px 5px 0 0;
   background: var(--accent);
+  transition: height 160ms ease;
 }
 
 .bar-column:nth-child(2) .bar-fill {
@@ -326,6 +327,7 @@ input[type="range"] {
   padding: 12px 14px;
   background: rgba(29, 106, 106, 0.08);
   line-height: 1.45;
+  transition: background 160ms ease;
 }
 
 .submit-status {
