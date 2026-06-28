@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monthly Questionnaire</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="intro" class="panel intro-panel">
+        <p class="kicker">Monthly Questionnaire: June Edition</p>
+        <h1>The machine would like a word.</h1>
+        <p class="intro-copy">
+          Thirty questions. No wrong answers. Some answers may be used against reality later.
+        </p>
+        <label class="name-field">
+          <span>Name</span>
+          <input id="respondentName" type="text" autocomplete="name" placeholder="Write your name">
+        </label>
+        <button id="startButton" class="primary-button" type="button">Begin</button>
+      </section>
+
+      <section id="quiz" class="panel quiz-panel hidden" aria-live="polite">
+        <header class="quiz-header">
+          <div>
+            <p id="sectionLabel" class="kicker">Act I</p>
+            <h2 id="questionTitle">Question</h2>
+          </div>
+          <p id="questionCount" class="question-count">1 / 30</p>
+        </header>
+
+        <div class="progress-track" aria-hidden="true">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+
+        <div id="questionBody" class="question-body"></div>
+
+        <footer class="quiz-footer">
+          <button id="backButton" class="secondary-button" type="button">Back</button>
+          <button id="nextButton" class="primary-button" type="button">Next</button>
+        </footer>
+      </section>
+
+      <section id="result" class="panel result-panel hidden">
+        <p class="kicker">Transmission Complete</p>
+        <h2 id="resultTitle">Your answers have entered the archive.</h2>
+        <p id="resultCopy" class="intro-copy"></p>
+        <div class="result-actions">
+          <button id="downloadButton" class="secondary-button" type="button">Download Answers</button>
+          <button id="restartButton" class="primary-button" type="button">Start Over</button>
+        </div>
+        <p id="submitStatus" class="submit-status"></p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
