@@ -7,7 +7,7 @@ const editions = [
     id: "june-2026",
     title: "June 2026",
     kicker: "Monthly Questionnaire: June Edition",
-    intro: "Thirty questions. Some are normal. Some are wearing a fake mustache.",
+    intro: "30 questions. Some serious, some not. All meaningful.",
     answerFile: "june-questionnaire-answers.json",
     questions: [
       { id: "q1", section: "June 2026", type: "text", prompt: "Would you wear an article of clothing with writing in a language you don't understand?" },
@@ -96,6 +96,7 @@ const editions = [
 const defaultEditionId = "june-2026";
 const storageKey = "monthly-questionnaire-state";
 let state = loadState();
+const lockedEditionId = getLockedEditionId();
 
 const intro = document.querySelector("#intro");
 const quiz = document.querySelector("#quiz");
@@ -115,11 +116,20 @@ const questionCount = document.querySelector("#questionCount");
 const sectionLabel = document.querySelector("#sectionLabel");
 const progressFill = document.querySelector("#progressFill");
 const questionBody = document.querySelector("#questionBody");
+const saveStatus = document.querySelector("#saveStatus");
 const resultCopy = document.querySelector("#resultCopy");
 const submitStatus = document.querySelector("#submitStatus");
 
 renderEditionOptions();
 respondentName.value = state.name;
+if (lockedEditionId) {
+  const isSwitchingEdition = state.editionId !== lockedEditionId;
+  state.editionId = lockedEditionId;
+  if (isSwitchingEdition) state.index = 0;
+  state.answers = state.answersByEdition[state.editionId] || {};
+  saveState();
+  editionSelect.closest(".edition-field").classList.add("hidden");
+}
 editionSelect.value = state.editionId;
 renderIntroEdition();
 
@@ -189,6 +199,7 @@ function renderQuestion() {
   progressFill.style.width = `${((state.index + 1) / questions.length) * 100}%`;
   nextButton.textContent = state.index === questions.length - 1 ? "Finish" : "Next";
   document.title = `${edition.title} - Monthly Questionnaire`;
+  updateSaveStatus("Saved in this browser");
 
   questionBody.innerHTML = "";
   questionBody.appendChild(createPrompt(question));
@@ -225,6 +236,13 @@ function currentEdition() {
 
 function currentQuestions() {
   return currentEdition().questions;
+}
+
+function getLockedEditionId() {
+  const params = new URLSearchParams(window.location.search);
+  const editionId = params.get("edition");
+  if (!editionId) return "";
+  return editions.some((edition) => edition.id === editionId) ? editionId : "";
 }
 
 function createPrompt(question) {
@@ -590,4 +608,10 @@ function loadState() {
 function saveState() {
   state.answersByEdition[state.editionId] = state.answers;
   localStorage.setItem(storageKey, JSON.stringify(state));
+  updateSaveStatus("Saved just now");
+}
+
+function updateSaveStatus(message) {
+  if (!saveStatus) return;
+  saveStatus.textContent = message;
 }
