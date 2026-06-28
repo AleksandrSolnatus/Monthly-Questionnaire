@@ -30,7 +30,7 @@ const editions = [
       { id: "q18", section: "June 2026", type: "text", prompt: "How do you confirm your reality?" },
       { id: "q19", section: "June 2026", type: "choiceText", prompt: "Do you think Marie Antoinette would be a queenie now for telling the plebs to eat ass?", options: ["Yes", "No"], writeInLabel: "Write-in ruling" },
       { id: "q20", section: "June 2026", type: "slider", prompt: "How real does money feel to you?", min: 0, max: 100, leftLabel: "Stage prop", rightLabel: "Cosmic law" },
-      { id: "q21", section: "June 2026", type: "callback", prompt: "This refers to question 4. Supposing you choose the power of {q4.Athlete}, how do you imagine navigating the rookie process as someone much older?", fallback: "your stolen athletic destiny" },
+      { id: "q21", section: "June 2026", type: "callback", prompt: "This refers to question 4. With the powers of {q4.Athlete} and wearing {q4.Article of clothing}, you go pro. How do you imagine navigating the rookie process as someone much older?", fallback: "your stolen athletic destiny", fallbacks: { "q4.Athlete": "a great player", "q4.Article of clothing": "the article of clothing" } },
       { id: "q22", section: "June 2026", type: "text", prompt: "Continuation of question 21. Do you begin styling differently?" },
       { id: "q23", section: "June 2026", type: "text", prompt: "How old is your phone? And what condition is it in?" },
       { id: "q24", section: "June 2026", type: "choiceText", prompt: "How much small talking with strangers do you do? Is this more or less than ideal?", options: ["Almost none", "A normal human amount", "More than I can defend", "I am the mayor of small talk"], writeInLabel: "Explain the gap" },
@@ -258,7 +258,7 @@ function hydratePrompt(question) {
   return question.prompt.replace(/\{([^}]+)\}/g, (_, id) => {
     const answer = getAnswerValue(id);
     if (typeof answer === "string" && answer.trim()) return answer;
-    return question.fallback || "that";
+    return question.fallbacks?.[id] || question.fallback || "that";
   });
 }
 
